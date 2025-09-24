@@ -1,55 +1,103 @@
-
-
-
 import sys
 from PyQt5 import QtWidgets, uic
-from profesores import Profesor
-import sqlite3
-from db.conexion import conexion, cursor
-from servicio_profesor import ServicioProfesor
-
-
-
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMenu
+from servicio.usuarioservicio import UsuarioServicio
 
 class Ventana(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi("ventana_principal.ui", self)
         self.actionSalir.triggered.connect(QtWidgets.qApp.quit)
-        self.actionProfesores.triggered.connect(self.abrir_profesores)
-    
-    def abrir_profesores(self):
-        self.ventana_profesores = VentanaProfesores()
-        self.ventana_profesores.show()
+        self.actionUsuarios.triggered.connect(self.abrir_usuarios)
 
-class VentanaProfesores(QtWidgets.QDialog):
+    def abrir_usuarios(self):
+        self.ventana_usuarios = VentanaUsuarios()
+        self.ventana_usuarios.show()
+
+class VentanaUsuarios(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("profesores.ui", self)
+        uic.loadUi("usuarios.ui", self)
+        self.servicio_usuario = UsuarioServicio()
         
         self.btnCerrar.clicked.connect(self.close)
+        self.btnIngresar.clicked.connect(self.ingresar_usuario)
+        self.btnEliminar.clicked.connect(self.eliminar_usuario)
 
-        self.listar_profesor()
+        self.listar_usuarios()
+
+        self.tlbUsuarios.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tlbUsuarios.customContextMenuRequested.connect(self.menu_contextual)
+
+    def menu_contextual(self, pos):
+        try:
+            row = self.tlbUsuarios.rowAt(pos.y())
+            nombre, contraseña = self.tlbUsuarios.item(row, 0).text(), self.tlbUsuarios.item(row, 1).text()
+            if row >= 0:
+                menu = QMenu()
+                eliminar = menu.addAction("Eliminar fila")
+                accion = menu.exec(self.tlbUsuarios.mapToGlobal(pos))
+
+            if accion == eliminar:
+                self.tlbUsuarios.removeRow(row)
+                self.servicio_usuario.eliminar_usuario(nombre, contraseña)
+                self.mensaje_aviso(f"Usuario {nombre} eliminado exitosamente.")
+                self.listar_usuarios()
+        except Exception as e:
+            self.mensaje_aviso_error(f"Error al procesar la acción del menú contextual: {e}")
+
+    def listar_usuarios(self):
+        usuarios = self.servicio_usuario.obtener_todos_los_usuarios()
         
-    def listar_profesor(self):
-        servicio_profesor = ServicioProfesor()
-        profesores = servicio_profesor.listar_profesores()
-        if not profesores:
-            print("No hay profesores registrados.")
+        if not usuarios:
+            self.mensaje_aviso_error("No hay usuarios registrados.")
         else:
-            print("\nLista de profesores:")
-            self.tlbProfesores.setRowCount(len(profesores))
-            
-            row = 0
-            for  profesor in profesores:
-                #print(f"DNI: {prof[0]} | Nombre: {prof[1]} | Apellido: {prof[2]} | CorreoElectronico: {prof[3]} | Telefono: {prof[4]}")
-                self.tlbProfesores.setItem(row, 0, QtWidgets.QTableWidgetItem(profesor[0]))
-                self.tlbProfesores.setItem(row, 1, QtWidgets.QTableWidgetItem(profesor[1]))
-                self.tlbProfesores.setItem(row, 2, QtWidgets.QTableWidgetItem(profesor[2]))
-                self.tlbProfesores.setItem(row, 3, QtWidgets.QTableWidgetItem(profesor[3]))
-                #self.tlbProfesores.setItem(row, 4, QtWidgets.QTableWidgetItem(profesor[4]))
+            print("\nLista de usuarios")
+            self.tlbUsuarios.setRowCount(len(usuarios))
+            self.tlbUsuarios.setColumnCount(2)
+            for row, usuario in enumerate(usuarios):
+                self.tlbUsuarios.setItem(row, 0, QtWidgets.QTableWidgetItem(str(usuario[1])))
+                self.tlbUsuarios.setItem(row, 1, QtWidgets.QTableWidgetItem(str(usuario[2])))
 
-                row = row + 1
+    def ingresar_usuario(self):
+        nombre = self.nombre.text()
+        contraseña = self.contraseña.text()
+
+        if not nombre or not contraseña:
+            self.mensaje_aviso_error("Por favor, complete todos los campos.")
+            return
+        
+        self.servicio_usuario.agregar_usuario(nombre, contraseña)
+        self.mensaje_aviso(f"Usuario {nombre} agregado exitosamente.")
+        self.listar_usuarios()
+
+    def eliminar_usuario(self):
+        fila_seleccionada = self.tlbUsuarios.currentRow()
+        if fila_seleccionada < 0:
+            self.mensaje_aviso_error("Por favor, seleccione un usuario para eliminar.")
+            return
+
+        nombre_usuario, contraseña = self.tlbUsuarios.item(fila_seleccionada, 0).text(), self.tlbUsuarios.item(fila_seleccionada, 1).text()
+        self.servicio_usuario.eliminar_usuario(nombre_usuario, contraseña)
+        self.mensaje_aviso(f"Usuario {nombre_usuario} eliminado exitosamente.")
+        self.listar_usuarios()
+
+    def mensaje_aviso_error(self, mensaje):
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+        msg_box.setText(mensaje)
+        msg_box.setWindowTitle("Aviso")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg_box.exec()
+    
+    def mensaje_aviso(self, mensaje):
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QtWidgets.QMessageBox.Information)
+        msg_box.setText(mensaje)
+        msg_box.setWindowTitle("Aviso")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg_box.exec()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

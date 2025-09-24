@@ -1,6 +1,6 @@
 
 
-from repositorio_profesor import RepositorioProfesor
+from repositorio.repositorio_profesor import RepositorioProfesor
 
 class ServicioProfesor:
     def listar_profesores(self):

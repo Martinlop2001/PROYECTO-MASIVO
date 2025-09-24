@@ -28,6 +28,7 @@
      <string>Archivo</string>
     </property>
     <addaction name="separator"/>
+    <addaction name="actionUsuarios"/>
     <addaction name="actionProfesores"/>
     <addaction name="actionAlumnos"/>
     <addaction name="actionMaterias"/>
@@ -48,6 +49,11 @@
     <bool>false</bool>
    </attribute>
   </widget>
+  <action name="actionUsuarios">
+   <property name="text">
+    <string>Usuarios</string>
+   </property>
+  </action>
   <action name="actionProfesores">
    <property name="text">
     <string>Profesores</string>
