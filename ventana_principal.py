@@ -10,10 +10,18 @@ class Ventana(QtWidgets.QMainWindow):
         uic.loadUi("ventana_principal.ui", self)
         self.actionSalir.triggered.connect(QtWidgets.qApp.quit)
         self.actionUsuarios.triggered.connect(self.abrir_usuarios)
+        self.actionAcercade.triggered.connect(self.mostrar_acercade)
+        self.actionUsuarios_2.triggered.connect(self.sobre_usuarios)
 
     def abrir_usuarios(self):
         self.ventana_usuarios = VentanaUsuarios()
         self.ventana_usuarios.show()
+
+    def mostrar_acercade(self):
+        QtWidgets.QMessageBox.information(self, "Acerca de", "Aplicación de Gestión de Usuarios\nDesarrollada por Luis")
+    
+    def sobre_usuarios(self):
+        QtWidgets.QMessageBox.information(self, "Sobre Usuarios", "En este sistema puedes gestionar los usuarios.\nPuedes agregar, eliminar o modificar usuarios existentes.")
 
 class VentanaUsuarios(QtWidgets.QDialog):
     def __init__(self):
@@ -30,6 +38,7 @@ class VentanaUsuarios(QtWidgets.QDialog):
         self.tlbUsuarios.setContextMenuPolicy(Qt.CustomContextMenu)
         self.tlbUsuarios.customContextMenuRequested.connect(self.menu_contextual)
 
+    # Menu desplegable al hacer click derecho en una de las filas de la tabla
     def menu_contextual(self, pos):
         try:
             row = self.tlbUsuarios.rowAt(pos.y())
@@ -76,6 +85,7 @@ class VentanaUsuarios(QtWidgets.QDialog):
         self.mensaje_aviso(f"Usuario {nombre} agregado exitosamente.")
         self.listar_usuarios()
 
+    # En duda si este metodo se usara o no.
     def eliminar_usuario(self):
         fila_seleccionada = self.tlbUsuarios.currentRow()
         if fila_seleccionada < 0:
@@ -104,6 +114,7 @@ class VentanaUsuarios(QtWidgets.QDialog):
         except Exception as e:
             self.mensaje_aviso_error(f"Error al modificar el usuario: {e}")
 
+    # Ventana de aviso con mensajes de error
     def mensaje_aviso_error(self, mensaje):
         msg_box = QtWidgets.QMessageBox()
         msg_box.setIcon(QtWidgets.QMessageBox.Warning)
@@ -111,7 +122,8 @@ class VentanaUsuarios(QtWidgets.QDialog):
         msg_box.setWindowTitle("Aviso")
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
         msg_box.exec()
-    
+
+    # Ventana de aviso con mensajes de información
     def mensaje_aviso(self, mensaje):
         msg_box = QtWidgets.QMessageBox()
         msg_box.setIcon(QtWidgets.QMessageBox.Information)

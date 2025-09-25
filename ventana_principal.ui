@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>804</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -35,20 +35,23 @@
     <addaction name="separator"/>
     <addaction name="actionSalir"/>
    </widget>
+   <widget class="QMenu" name="menuAyuda">
+    <property name="title">
+     <string>Ayuda</string>
+    </property>
+    <widget class="QMenu" name="menuSobre_su_uso">
+     <property name="title">
+      <string>Sobre su uso</string>
+     </property>
+     <addaction name="actionUsuarios_2"/>
+    </widget>
+    <addaction name="actionAcercade"/>
+    <addaction name="menuSobre_su_uso"/>
+   </widget>
    <addaction name="menuArchivo"/>
+   <addaction name="menuAyuda"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
   <action name="actionUsuarios">
    <property name="text">
     <string>Usuarios</string>
@@ -72,6 +75,16 @@
   <action name="actionSalir">
    <property name="text">
     <string>Salir</string>
+   </property>
+  </action>
+  <action name="actionAcercade">
+   <property name="text">
+    <string>Acerca de...</string>
+   </property>
+  </action>
+  <action name="actionUsuarios_2">
+   <property name="text">
+    <string>Usuarios</string>
    </property>
   </action>
  </widget>
