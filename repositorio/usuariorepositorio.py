@@ -44,3 +44,10 @@ class UsuarioRepositorio:
         result = cursor.fetchone()
         conn.close()
         return result[0] if result else None
+    
+    def modificar_usuario(self, id, nuevo_nombre, nueva_contraseña):
+        conn = self.conectar()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE usuarios SET nombreusuario = ?, contraseña = ? WHERE id_usuario = ?", (nuevo_nombre, nueva_contraseña, id))
+        conn.commit()
+        conn.close()

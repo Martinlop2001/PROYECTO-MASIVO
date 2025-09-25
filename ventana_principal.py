@@ -33,11 +33,15 @@ class VentanaUsuarios(QtWidgets.QDialog):
     def menu_contextual(self, pos):
         try:
             row = self.tlbUsuarios.rowAt(pos.y())
-            nombre, contraseña = self.tlbUsuarios.item(row, 0).text(), self.tlbUsuarios.item(row, 1).text()
             if row >= 0:
+                nombre, contraseña = self.tlbUsuarios.item(row, 0).text(), self.tlbUsuarios.item(row, 1).text()
                 menu = QMenu()
                 eliminar = menu.addAction("Eliminar fila")
+                modificar = menu.addAction("Modificar fila")                
                 accion = menu.exec(self.tlbUsuarios.mapToGlobal(pos))
+            
+            if accion == modificar:
+                self.modificar_usuario(row)
 
             if accion == eliminar:
                 self.tlbUsuarios.removeRow(row)
@@ -82,6 +86,23 @@ class VentanaUsuarios(QtWidgets.QDialog):
         self.servicio_usuario.eliminar_usuario(nombre_usuario, contraseña)
         self.mensaje_aviso(f"Usuario {nombre_usuario} eliminado exitosamente.")
         self.listar_usuarios()
+
+    def modificar_usuario(self, row):
+        try:
+            nombre_actual = self.tlbUsuarios.item(row, 0).text()
+            contraseña_actual = self.tlbUsuarios.item(row, 1).text()
+
+            nuevo_nombre, ok1 = QtWidgets.QInputDialog.getText(self, "Modificar Usuario", "Nuevo nombre:", text=nombre_actual)
+            nuevo_contraseña, ok2 = QtWidgets.QInputDialog.getText(self, "Modificar Usuario", "Nueva contraseña:", text=contraseña_actual)
+
+            if ok1 and ok2 and nuevo_nombre and nuevo_contraseña:
+                self.servicio_usuario.modificar_usuario(nombre_actual, contraseña_actual, nuevo_nombre, nuevo_contraseña)
+                self.mensaje_aviso(f"Usuario {nombre_actual} modificado exitosamente.")
+                self.listar_usuarios()
+            else:
+                self.mensaje_aviso_error("Modificación cancelada o datos inválidos.")
+        except Exception as e:
+            self.mensaje_aviso_error(f"Error al modificar el usuario: {e}")
 
     def mensaje_aviso_error(self, mensaje):
         msg_box = QtWidgets.QMessageBox()

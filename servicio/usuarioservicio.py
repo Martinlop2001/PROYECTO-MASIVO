@@ -15,3 +15,7 @@ class UsuarioServicio:
     def eliminar_usuario(self, nombre, contraseña):
         id = self.repositorio.buscar_id(nombre, contraseña)
         self.repositorio.eliminar_usuario(id)
+
+    def modificar_usuario(self, nombre_actual, contraseña_actual, nuevo_nombre, nueva_contraseña):
+        id = self.repositorio.buscar_id(nombre_actual, contraseña_actual)
+        self.repositorio.modificar_usuario(id, nuevo_nombre, nueva_contraseña)
