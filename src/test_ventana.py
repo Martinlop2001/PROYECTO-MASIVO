@@ -13,18 +13,31 @@ class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
         self.actionAcercade.triggered.connect(self.mostrar_acercade)
         self.actionUsuarios_2.triggered.connect(self.sobre_usuarios)
 
+        self.ocultar_usuarios()
+
         self.servicio_usuario = UsuarioServicio()
         
         self.btnIngresar.clicked.connect(self.ingresar_usuario)
         self.btnModificar.clicked.connect(self.modificar_usuario)
 
-        self.listar_usuarios()
-
         self.tlbUsuarios.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.tlbUsuarios.customContextMenuRequested.connect(self.menu_contextual)
+        self.tlbUsuarios.customContextMenuRequested.connect(self.menu_contextual)        
 
     def abrir_usuarios(self):
-        VentanaPrincipal().show()
+        self.tlbUsuarios.show()
+        self.btnIngresar.show()
+        self.btnModificar.show()
+        self.nombre.show()
+        self.contrasena.show()
+
+        self.listar_usuarios()
+
+    def ocultar_usuarios(self):
+        self.tlbUsuarios.hide()
+        self.btnIngresar.hide()
+        self.btnModificar.hide()
+        self.nombre.hide()
+        self.contrasena.hide()
 
     def mostrar_acercade(self):
         QtWidgets.QMessageBox.information(self, "Acerca de", "Aplicación de Gestión de Usuarios\nDesarrollada por Luis")
