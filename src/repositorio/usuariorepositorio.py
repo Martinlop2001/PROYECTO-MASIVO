@@ -2,7 +2,7 @@ import sqlite3
 
 class UsuarioRepositorio:
     def __init__(self):
-        self.db_path = "db/db.db"
+        self.db_path = "src/db/db.db"
 
     def conectar(self):
         return sqlite3.connect(self.db_path)
