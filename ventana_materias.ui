@@ -20,7 +20,7 @@
      <x>0</x>
      <y>0</y>
      <width>804</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -28,8 +28,6 @@
      <string>Archivo</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionProfesores"/>
-    <addaction name="actionAlumnos"/>
     <addaction name="actionMaterias"/>
     <addaction name="separator"/>
     <addaction name="actionSalir"/>
@@ -48,16 +46,6 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <action name="actionProfesores">
-   <property name="text">
-    <string>Profesores</string>
-   </property>
-  </action>
-  <action name="actionAlumnos">
-   <property name="text">
-    <string>Alumnos</string>
-   </property>
-  </action>
   <action name="actionMaterias">
    <property name="text">
     <string>Materias</string>

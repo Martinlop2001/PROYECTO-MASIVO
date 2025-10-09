@@ -2,7 +2,7 @@
 
 import sqlite3
 
-conexion = sqlite3.connect(".\\db\\profesores.db")
+conexion = sqlite3.connect(".\\db\\registro.db")
 
 cursor = conexion.cursor()
 
