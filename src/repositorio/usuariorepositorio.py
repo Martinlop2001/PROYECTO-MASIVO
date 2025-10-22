@@ -7,10 +7,10 @@ class UsuarioRepositorio:
     def conectar(self):
         return sqlite3.connect(self.db_path)
 
-    def agregar_usuario(self, id, nombre, contraseña):
+    def agregar_usuario(self, nombre, contraseña):
         conn = self.conectar()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO usuarios (id_usuario, nombreusuario, contraseña) VALUES (?, ?, ?)", (id, nombre, contraseña))
+        cursor.execute("INSERT INTO usuarios (nombreusuario, contraseña) VALUES (?, ?)", (nombre, contraseña))
         conn.commit()
         conn.close()
 
@@ -28,14 +28,6 @@ class UsuarioRepositorio:
         cursor.execute("DELETE FROM usuarios WHERE id_usuario = ?", (id,))
         conn.commit()
         conn.close()
-
-    def obtener_max_id(self):
-        conn = self.conectar()
-        cursor = conn.cursor()
-        cursor.execute('SELECT MAX(id_usuario) FROM usuarios')
-        result = cursor.fetchone()
-        conn.close()
-        return result[0] if result[0] is not None else 0
     
     def buscar_id(self, nombre, contraseña):
         conn = self.conectar()

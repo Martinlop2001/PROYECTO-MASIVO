@@ -1,4 +1,4 @@
-from repositorio.usuariorepositorio import UsuarioRepositorio
+from src.repositorio.usuariorepositorio import UsuarioRepositorio
 
 class UsuarioServicio:
     def __init__(self):
@@ -8,9 +8,7 @@ class UsuarioServicio:
         return self.repositorio.obtener_usuario()
     
     def agregar_usuario(self, nombre, contraseña):
-        max_id = self.repositorio.obtener_max_id()
-        new_id = max_id + 1
-        self.repositorio.agregar_usuario(new_id, nombre, contraseña)
+        self.repositorio.agregar_usuario(nombre, contraseña)
 
     def eliminar_usuario(self, nombre, contraseña):
         id = self.repositorio.buscar_id(nombre, contraseña)
