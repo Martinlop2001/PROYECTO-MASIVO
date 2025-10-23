@@ -7,10 +7,10 @@ class UsuarioRepositorio:
     def conectar(self):
         return sqlite3.connect(self.db_path)
 
-    def agregar_usuario(self, nombre, contraseña):
+    def agregar_usuario(self, usuario):
         conn = self.conectar()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO usuarios (nombreusuario, contraseña) VALUES (?, ?)", (nombre, contraseña))
+        cursor.execute("INSERT INTO usuarios (nombreusuario, contraseña) VALUES (?, ?)", (usuario.nombre, usuario.contraseña))
         conn.commit()
         conn.close()
 

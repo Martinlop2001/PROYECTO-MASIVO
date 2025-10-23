@@ -1,3 +1,4 @@
+from src.entidades.usuarios import Usarios
 from src.repositorio.usuariorepositorio import UsuarioRepositorio
 
 class UsuarioServicio:
@@ -8,7 +9,8 @@ class UsuarioServicio:
         return self.repositorio.obtener_usuario()
     
     def agregar_usuario(self, nombre, contraseña):
-        self.repositorio.agregar_usuario(nombre, contraseña)
+        usuario = Usarios(nombre, contraseña)
+        self.repositorio.agregar_usuario(usuario)
 
     def eliminar_usuario(self, nombre, contraseña):
         id = self.repositorio.buscar_id(nombre, contraseña)
