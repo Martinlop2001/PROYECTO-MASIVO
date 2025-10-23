@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMenu
 from src.service.usuarioservicio import UsuarioServicio
 
-class Ventana(QtWidgets.QMainWindow):
+class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
         uic.loadUi("src/pantallas/ventana_principal.ui", self)
@@ -13,30 +13,44 @@ class Ventana(QtWidgets.QMainWindow):
         self.actionAcercade.triggered.connect(self.mostrar_acercade)
         self.actionUsuarios_2.triggered.connect(self.sobre_usuarios)
 
+        self.ocultar_usuarios()
+
+        self.servicio_usuario = UsuarioServicio()
+        
+        self.btnIngresar.clicked.connect(self.ingresar_usuario)
+        self.btnModificar.clicked.connect(self.modificar_usuario)
+        self.btnMas.clicked.connect(self.limpiar_campos)
+        self.btnCancelar.clicked.connect(self.limpiar_campos)
+
+        self.tlbUsuarios.cellClicked.connect(self.seleccion)
+        self.tlbUsuarios.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.tlbUsuarios.customContextMenuRequested.connect(self.menu_contextual)        
+
     def abrir_usuarios(self):
-        self.ventana_usuarios = VentanaUsuarios()
-        self.ventana_usuarios.show()
+        self.tlbUsuarios.show()
+        self.btnIngresar.show()
+        self.btnModificar.show()
+        self.nombre.show()
+        self.contrasena.show()
+        self.btnMas.show()
+        self.btnCancelar.show()
+
+        self.listar_usuarios()
+
+    def ocultar_usuarios(self):
+        self.tlbUsuarios.hide()
+        self.btnIngresar.hide()
+        self.btnModificar.hide()
+        self.nombre.hide()
+        self.contrasena.hide()
+        self.btnMas.hide()
+        self.btnCancelar.hide()
 
     def mostrar_acercade(self):
         QtWidgets.QMessageBox.information(self, "Acerca de", "Aplicación de Gestión de Usuarios\nDesarrollada por Luis")
     
     def sobre_usuarios(self):
         QtWidgets.QMessageBox.information(self, "Sobre Usuarios", "En este sistema puedes gestionar los usuarios.\nPuedes agregar, eliminar o modificar usuarios existentes.")
-
-class VentanaUsuarios(QtWidgets.QDialog):
-    def __init__(self):
-        super().__init__()
-        uic.loadUi("src/pantallas/usuarios.ui", self)
-        self.servicio_usuario = UsuarioServicio()
-        
-        self.btnCerrar.clicked.connect(self.close)
-        self.btnIngresar.clicked.connect(self.ingresar_usuario)
-        self.btnEliminar.clicked.connect(self.eliminar_usuario)
-
-        self.listar_usuarios()
-
-        self.tlbUsuarios.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.tlbUsuarios.customContextMenuRequested.connect(self.menu_contextual)
 
     # Menu desplegable al hacer click derecho en una de las filas de la tabla
     def menu_contextual(self, pos):
@@ -46,17 +60,20 @@ class VentanaUsuarios(QtWidgets.QDialog):
                 nombre, contraseña = self.tlbUsuarios.item(row, 0).text(), self.tlbUsuarios.item(row, 1).text()
                 menu = QMenu()
                 eliminar = menu.addAction("Eliminar fila")
-                modificar = menu.addAction("Modificar fila")                
+                #modificar = menu.addAction("Modificar fila")                
                 accion = menu.exec(self.tlbUsuarios.mapToGlobal(pos))
             
-            if accion == modificar:
-                self.modificar_usuario(row)
-
+            #if accion == modificar:
             if accion == eliminar:
-                self.tlbUsuarios.removeRow(row)
-                self.servicio_usuario.eliminar_usuario(nombre, contraseña)
-                self.mensaje_aviso(f"Usuario {nombre} eliminado exitosamente.")
-                self.listar_usuarios()
+                respuesta = self.mensaje_confirmacion("¿Está seguro que desea eliminar este elemento?")
+
+                if respuesta:
+                    self.tlbUsuarios.removeRow(row)
+                    self.servicio_usuario.eliminar_usuario(nombre, contraseña)
+                    self.mensaje_aviso(f"Usuario {nombre} eliminado exitosamente.")
+                    self.listar_usuarios()
+                else:
+                    self.mensaje_aviso("Eliminación cancelada.")
         except Exception as e:
             self.mensaje_aviso_error(f"Error al procesar la acción del menú contextual: {e}")
 
@@ -75,7 +92,7 @@ class VentanaUsuarios(QtWidgets.QDialog):
 
     def ingresar_usuario(self):
         nombre = self.nombre.text()
-        contraseña = self.contraseña.text()
+        contraseña = self.contrasena.text()
 
         if not nombre or not contraseña:
             self.mensaje_aviso_error("Por favor, complete todos los campos.")
@@ -85,34 +102,36 @@ class VentanaUsuarios(QtWidgets.QDialog):
         self.mensaje_aviso(f"Usuario {nombre} agregado exitosamente.")
         self.listar_usuarios()
 
-    # En duda si este metodo se usara o no.
-    def eliminar_usuario(self):
-        fila_seleccionada = self.tlbUsuarios.currentRow()
-        if fila_seleccionada < 0:
-            self.mensaje_aviso_error("Por favor, seleccione un usuario para eliminar.")
-            return
-
-        nombre_usuario, contraseña = self.tlbUsuarios.item(fila_seleccionada, 0).text(), self.tlbUsuarios.item(fila_seleccionada, 1).text()
-        self.servicio_usuario.eliminar_usuario(nombre_usuario, contraseña)
-        self.mensaje_aviso(f"Usuario {nombre_usuario} eliminado exitosamente.")
-        self.listar_usuarios()
-
-    def modificar_usuario(self, row):
+    def seleccion(self):
         try:
-            nombre_actual = self.tlbUsuarios.item(row, 0).text()
-            contraseña_actual = self.tlbUsuarios.item(row, 1).text()
+            row = self.tlbUsuarios.currentRow()
+            self.nombre_actual = self.tlbUsuarios.item(row, 0).text()
+            self.contraseña_actual = self.tlbUsuarios.item(row, 1).text()
 
-            nuevo_nombre, ok1 = QtWidgets.QInputDialog.getText(self, "Modificar Usuario", "Nuevo nombre:", text=nombre_actual)
-            nuevo_contraseña, ok2 = QtWidgets.QInputDialog.getText(self, "Modificar Usuario", "Nueva contraseña:", text=contraseña_actual)
+            self.nombre.setText(self.nombre_actual)
+            self.contrasena.setText(self.contraseña_actual)
+        except Exception as ex:
+            self.mensaje_aviso_error(f"Error al seleccionar el usuario: {ex}")
+    
+    def modificar_usuario(self):
+        try:
+            nuevo_nombre = self.nombre.text()
+            nuevo_contraseña = self.contrasena.text()
 
-            if ok1 and ok2 and nuevo_nombre and nuevo_contraseña:
-                self.servicio_usuario.modificar_usuario(nombre_actual, contraseña_actual, nuevo_nombre, nuevo_contraseña)
-                self.mensaje_aviso(f"Usuario {nombre_actual} modificado exitosamente.")
+            respuesta = self.mensaje_confirmacion("¿Está seguro que desea modificar este elemento?")
+
+            if respuesta and self.nombre_actual and self.contraseña_actual and nuevo_nombre and nuevo_contraseña:
+                self.servicio_usuario.modificar_usuario(self.nombre_actual, self.contraseña_actual, nuevo_nombre, nuevo_contraseña)
+                self.mensaje_aviso(f"Usuario {self.nombre_actual} modificado exitosamente.")
                 self.listar_usuarios()
             else:
-                self.mensaje_aviso_error("Modificación cancelada o datos inválidos.")
+                self.mensaje_aviso_error("Modificación cancelada.")
         except Exception as e:
             self.mensaje_aviso_error(f"Error al modificar el usuario: {e}")
+
+    def limpiar_campos(self):
+        self.nombre.clear()
+        self.contrasena.clear()
 
     # Ventana de aviso con mensajes de error
     def mensaje_aviso_error(self, mensaje):
@@ -131,9 +150,17 @@ class VentanaUsuarios(QtWidgets.QDialog):
         msg_box.setWindowTitle("Aviso")
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
         msg_box.exec()
+    
+    def mensaje_confirmacion(self, mensaje):
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QtWidgets.QMessageBox.Question)
+        msg_box.setText(mensaje)
+        msg_box.setWindowTitle("Confirmación")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        return msg_box.exec() == QtWidgets.QMessageBox.Yes
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    ventana = Ventana()
+    ventana = VentanaPrincipal()
     ventana.show()
     sys.exit(app.exec_())

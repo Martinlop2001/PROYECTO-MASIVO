@@ -7,13 +7,115 @@
     <x>0</x>
     <y>0</y>
     <width>804</width>
-    <height>592</height>
+    <height>535</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Administración del ITES</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableWidget" name="tlbUsuarios">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>60</y>
+      <width>701</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>CustomContextMenu</enum>
+    </property>
+    <column>
+     <property name="text">
+      <string>NombreUsuarios</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Contraseñas</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLineEdit" name="nombre">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>400</y>
+      <width>191</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Nombre de Usuario</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="contrasena">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>430</y>
+      <width>191</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Contraseña</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnIngresar">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>470</y>
+      <width>90</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Insertar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnModificar">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>470</y>
+      <width>90</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Modificar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnMas">
+    <property name="geometry">
+     <rect>
+      <x>709</x>
+      <y>18</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>+</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnCancelar">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>470</y>
+      <width>90</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cancelar</string>
+    </property>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -51,7 +153,6 @@
    <addaction name="menuArchivo"/>
    <addaction name="menuAyuda"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionUsuarios">
    <property name="text">
     <string>Usuarios</string>

@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 import sys
-from src.test.test_ventana import VentanaPrincipal
-from src.pantallas.ventana_principal import Ventana
+from src.pantallas.ventana_principal import VentanaPrincipal
+from src.test.test_ventana_principal import Ventana
 
 def main():
     print("Iniciando la aplicación...")
@@ -13,12 +13,12 @@ def main():
 
     if opcion == "1":
         app = QtWidgets.QApplication(sys.argv)
-        ventana = Ventana()
+        ventana = VentanaPrincipal()
         ventana.show()
         sys.exit(app.exec_())
     elif opcion == "2":
         app = QtWidgets.QApplication(sys.argv)
-        ventana_test = VentanaPrincipal()
+        ventana_test = Ventana()
         ventana_test.show()
         sys.exit(app.exec_())
     else:
