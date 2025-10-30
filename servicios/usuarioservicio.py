@@ -1,6 +1,6 @@
-from src.entidades.usuarios import Usarios
-from src.repositorio.usuariorepositorio import UsuarioRepositorio
-from src.gestion.gestionusuarios import Verificacion
+from entidades.usuarios import Usarios
+from repositorio.usuariorepositorio import UsuarioRepositorio
+from gestion.gestionusuarios import Verificacion
 
 class UsuarioServicio:
     def __init__(self):

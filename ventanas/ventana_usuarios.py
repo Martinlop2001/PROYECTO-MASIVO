@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMenu
-from src.servicios.usuarioservicio import UsuarioServicio
+from servicios.usuarioservicio import UsuarioServicio
 
 class VentanaUsuarios(QtWidgets.QMainWindow, QtWidgets.QDialog):
     def __init__(self):

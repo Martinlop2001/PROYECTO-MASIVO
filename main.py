@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 import sys
-from src.ventanas.ventana_usuarios import VentanaUsuarios
-from src.test.test_ventana_principal import Ventana
+from ventanas.ventana_usuarios import VentanaUsuarios
+from pruebas.test_ventana_principal import Ventana
 
 def main():
     print("Iniciando la aplicación...")

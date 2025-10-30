@@ -1,4 +1,5 @@
-from src.db.connexion_posgreSQL import ConexionDB
+from db.connexion_posgreSQL import ConexionDB
+
 class UsuarioRepositorio:
     def __init__(self):
         self.db = ConexionDB()
