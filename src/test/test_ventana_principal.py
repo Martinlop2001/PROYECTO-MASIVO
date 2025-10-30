@@ -1,4 +1,3 @@
-import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMenu
@@ -131,9 +130,3 @@ class VentanaUsuarios(QtWidgets.QDialog):
         msg_box.setWindowTitle("Aviso")
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
         msg_box.exec()
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    ventana = Ventana()
-    ventana.show()
-    sys.exit(app.exec_())

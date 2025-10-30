@@ -1,0 +1,7 @@
+self.tlbUsuarios.hide()
+self.btnIngresar.hide()
+self.btnModificar.hide()
+self.LineNombre.hide()
+self.LineContrasena.hide()
+self.btnMas.hide()
+self.btnCancelar.hide()

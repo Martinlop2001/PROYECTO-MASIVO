@@ -14,17 +14,15 @@ class ConexionDB:
         return connection
     
     def ejecutar_consulta(self, consulta, datos):
-        print("Conexion exitosa")
         try:
-            print("Paso db#1")
             cursor = self.connection.cursor()
             cursor.execute(consulta, datos)
             self.connection.commit()
-            print("Paso db#2")
+            return True
         except Exception as ex:
             print(ex)
             print("Error en la consulta")
-            return None
+            return False
         
     def obtencion(self, consulta, dato):
         try:

@@ -28,24 +28,12 @@ class VentanaUsuarios(QtWidgets.QMainWindow, QtWidgets.QDialog):
         self.tlbUsuarios.customContextMenuRequested.connect(self.menu_contextual)        
 
     def abrir_usuarios(self):
-        self.tlbUsuarios.show()
-        self.btnIngresar.show()
-        self.btnModificar.show()
-        self.LineNombre.show()
-        self.LineContrasena.show()
-        self.btnMas.show()
-        self.btnCancelar.show()
+        self.centralwidget.show()
 
         self.listar_usuarios()
 
     def ocultar_usuarios(self):
-        self.tlbUsuarios.hide()
-        self.btnIngresar.hide()
-        self.btnModificar.hide()
-        self.LineNombre.hide()
-        self.LineContrasena.hide()
-        self.btnMas.hide()
-        self.btnCancelar.hide()
+        self.centralwidget.hide()
 
     def mostrar_acercade(self):
         QtWidgets.QMessageBox.information(self, "Acerca de", "Aplicación de Gestión de Usuarios\nDesarrollada por Luis")
@@ -70,38 +58,47 @@ class VentanaUsuarios(QtWidgets.QMainWindow, QtWidgets.QDialog):
 
                 if respuesta:
                     self.tlbUsuarios.removeRow(row)
-                    self.servicio_usuario.eliminar_usuario(nombre, contraseña)
-                    self.mensaje_aviso(f"Usuario {nombre} eliminado exitosamente.")
-                    self.listar_usuarios()
+                    if self.servicio_usuario.eliminar_usuario(nombre, contraseña):
+                        self.mensaje_aviso(f"Usuario {nombre} eliminado exitosamente.")
+                        self.listar_usuarios()
+                    else:
+                        self.mensaje_aviso_error(f"No se pudo eliminar el usaurio {nombre} selecionado.")
                 else:
                     self.mensaje_aviso("Eliminación cancelada.")
         except Exception as e:
             self.mensaje_aviso_error(f"Error al procesar la acción del menú contextual: {e}")
 
     def listar_usuarios(self):
-        usuarios = self.servicio_usuario.obtener_todos_los_usuarios()
-        
-        if not usuarios:
-            self.mensaje_aviso_error("No hay usuarios registrados.")
-        else:
-            print("\nLista de usuarios")
-            self.tlbUsuarios.setRowCount(len(usuarios))
-            self.tlbUsuarios.setColumnCount(2)
-            for row, usuario in enumerate(usuarios):
-                self.tlbUsuarios.setItem(row, 0, QtWidgets.QTableWidgetItem(str(usuario[1])))
-                self.tlbUsuarios.setItem(row, 1, QtWidgets.QTableWidgetItem(str(usuario[2])))
+        try:
+            usuarios = self.servicio_usuario.obtener_todos_los_usuarios()
+            
+            if usuarios is False:
+                self.mensaje_aviso_error("No hay usuarios registrados.")
+            else:
+                print("\nLista de usuarios")
+                self.tlbUsuarios.setRowCount(len(usuarios))
+                self.tlbUsuarios.setColumnCount(2)
+                for row, usuario in enumerate(usuarios):
+                    self.tlbUsuarios.setItem(row, 0, QtWidgets.QTableWidgetItem(str(usuario[1])))
+                    self.tlbUsuarios.setItem(row, 1, QtWidgets.QTableWidgetItem(str(usuario[2])))
+        except Exception as ex:
+            self.mensaje_aviso_error(ex)
 
     def ingresar_usuario(self):
-        nombre = self.LineNombre.text()
-        contraseña = self.LineContrasena.text()
+        try:
+            nombre = self.LineNombre.text()
+            contraseña = self.LineContrasena.text()
 
-        if not nombre or not contraseña:
-            self.mensaje_aviso_error("Por favor, complete todos los campos.")
-            return
-        
-        self.servicio_usuario.agregar_usuario(nombre, contraseña)
-        self.mensaje_aviso(f"Usuario {nombre} agregado exitosamente.")
-        self.listar_usuarios()
+            if not nombre or not contraseña:
+                self.mensaje_aviso_error("Por favor, complete todos los campos.")
+            else:
+                if self.servicio_usuario.agregar_usuario(nombre, contraseña):
+                    self.mensaje_aviso(f"Usuario {nombre} agregado exitosamente.")
+                    self.listar_usuarios()
+                else:
+                    self.mensaje_aviso_error("Se produjo un error al ingresar el usaurio, intenetelo nuevamente.")
+        except Exception as ex:
+            self.mensaje_aviso_error(ex)
 
     def seleccion(self):
         try:
@@ -122,9 +119,11 @@ class VentanaUsuarios(QtWidgets.QMainWindow, QtWidgets.QDialog):
             respuesta = self.mensaje_confirmacion("¿Está seguro que desea modificar este elemento?")
 
             if respuesta and self.nombre_actual and self.contraseña_actual and nuevo_nombre and nuevo_contraseña:
-                self.servicio_usuario.modificar_usuario(self.nombre_actual, self.contraseña_actual, nuevo_nombre, nuevo_contraseña)
-                self.mensaje_aviso(f"Usuario {self.nombre_actual} modificado exitosamente.")
-                self.listar_usuarios()
+                if self.servicio_usuario.modificar_usuario(self.nombre_actual, self.contraseña_actual, nuevo_nombre, nuevo_contraseña):
+                    self.mensaje_aviso(f"Usuario {self.nombre_actual} modificado exitosamente.")
+                    self.listar_usuarios()
+                else:
+                    self.mensaje_aviso_error(f"No se pudo modificar el usaurio {self.nombre_actual} selecionado.")
             else:
                 self.mensaje_aviso_error("Modificación cancelada.")
         except Exception as e:
