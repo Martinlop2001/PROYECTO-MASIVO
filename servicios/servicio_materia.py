@@ -1,5 +1,5 @@
 
-from repositorios_materias.repositorio_materia import RepositorioMateria
+from repositorios.repositorio_materia import RepositorioMateria
 
 class ServicioMateria:
     def listar_materias(self):
@@ -15,6 +15,6 @@ class ServicioMateria:
         repositorio.eliminar_materia(id_materia)
 
     def modificar_materia(self, nombre_original, nuevo_nombre, nueva_carrera, nuevo_anio):
-        from repositorios_materias.repositorio_materia import RepositorioMateria
+        from repositorios.repositorio_materia import RepositorioMateria
         repo = RepositorioMateria()
         repo.modificar_materia(nombre_original, nuevo_nombre, nueva_carrera, nuevo_anio)

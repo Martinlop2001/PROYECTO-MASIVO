@@ -1,15 +1,15 @@
 import sys
 from PyQt5 import QtWidgets, uic
-from entidades_materias.materias import Materia
+from entidades.materias import Materia
 import sqlite3
-from db_materias.conexion import conexion, cursor
-from servicios_materias.servicio_materia import ServicioMateria
+from db.conexion import conexion, cursor
+from servicios.servicio_materia import ServicioMateria
 
 
 class Ventana(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("ventana_materias.ui", self)   
+        uic.loadUi(".\\xml\\ventana_materias.ui", self)   
         self.actionSalir.triggered.connect(QtWidgets.qApp.quit)
         self.actionMaterias.triggered.connect(self.abrir_Materias)
 
@@ -24,7 +24,7 @@ class Ventana(QtWidgets.QMainWindow):
 class VentanaMaterias(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("materias.ui", self)   
+        uic.loadUi(".\\xml\\materias.ui", self)   
         
         self.btnCerrar.clicked.connect(self.close)
         self.btnAgregar.clicked.connect(self.agregar_materia)
