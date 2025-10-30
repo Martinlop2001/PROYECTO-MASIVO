@@ -2,7 +2,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
-from serviciosalum.servicio_alumnos import ServicioAlumnos
+from servicios.servicio_alumnos import ServicioAlumnos
 
 class VentanaGestionAlumnos(QtWidgets.QMainWindow):
     def __init__(self):

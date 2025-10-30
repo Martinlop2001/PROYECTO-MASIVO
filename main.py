@@ -13,7 +13,7 @@ from PyQt5.QtCore import Qt
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 try:
-    from interfaz.ventana_principal import VentanaPrincipal
+    from ventanas.ventana_principal import VentanaPrincipal
 except ImportError as e:
     print(f"Error al importar módulos: {e}")
     print("Asegúrate de tener instaladas todas las dependencias:")

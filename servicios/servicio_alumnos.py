@@ -1,5 +1,5 @@
 
-from repositorioalum.repositorio_alumnos import RepositorioAlumnos
+from repositorio.repositorio_alumnos import RepositorioAlumnos
 
 class ServicioAlumnos:
     def __init__(self):
