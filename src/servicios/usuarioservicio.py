@@ -1,5 +1,6 @@
 from src.entidades.usuarios import Usarios
 from src.repositorio.usuariorepositorio import UsuarioRepositorio
+from src.gestion.gestionusuarios import Verificacion
 
 class UsuarioServicio:
     def __init__(self):
@@ -13,8 +14,11 @@ class UsuarioServicio:
             return False
     
     def agregar_usuario(self, nombre, contraseña):
-        usuario = Usarios(nombre, contraseña)
-        return self.repositorio.agregar_usuario(usuario)
+        if not self.verificar_datos(nombre, contraseña):
+            return False
+        else:
+            usuario = Usarios(nombre, contraseña)
+            return self.repositorio.agregar_usuario(usuario)
 
     def eliminar_usuario(self, nombre, contraseña):
         id = self.repositorio.buscar_id(nombre, contraseña)
@@ -25,5 +29,11 @@ class UsuarioServicio:
     def modificar_usuario(self, nombre_actual, contraseña_actual, nuevo_nombre, nueva_contraseña):
         id = self.repositorio.buscar_id(nombre_actual, contraseña_actual)
         if id is not None:
-            return self.repositorio.modificar_usuario(id, nuevo_nombre, nueva_contraseña)
+            if self.verificar_datos(nuevo_nombre, nueva_contraseña):
+                return self.repositorio.modificar_usuario(id, nuevo_nombre, nueva_contraseña)
+            return False
         return False
+    
+    def verificar_datos(self, nombre, contraseña):
+        verificacion = Verificacion(nombre, contraseña)
+        return verificacion.verificar_tamaño()
