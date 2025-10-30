@@ -6,7 +6,7 @@ from servicios.usuarioservicio import UsuarioServicio
 class Ventana(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("src/xml/test_ventana_principal.ui", self)
+        uic.loadUi("xml/test_ventana_principal.ui", self)
         self.actionSalir.triggered.connect(QtWidgets.qApp.quit)
         self.actionUsuarios.triggered.connect(self.abrir_usuarios)
         self.actionAcercade.triggered.connect(self.mostrar_acercade)
@@ -25,7 +25,7 @@ class Ventana(QtWidgets.QMainWindow):
 class VentanaUsuarios(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("src/xml/usuarios.ui", self)
+        uic.loadUi("xml/usuarios.ui", self)
         self.servicio_usuario = UsuarioServicio()
         
         self.btnCerrar.clicked.connect(self.close)
