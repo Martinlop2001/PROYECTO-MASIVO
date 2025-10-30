@@ -25,7 +25,7 @@ class Ventana(QtWidgets.QMainWindow):
 class VentanaUsuarios(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("src/test/usuarios.ui", self)
+        uic.loadUi("src/xml/usuarios.ui", self)
         self.servicio_usuario = UsuarioServicio()
         
         self.btnCerrar.clicked.connect(self.close)

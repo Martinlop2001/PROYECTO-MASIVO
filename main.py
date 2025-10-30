@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 import sys
-from src.pantallas.ventana_usuarios import VentanaUsuarios
+from src.ventanas.ventana_usuarios import VentanaUsuarios
 from src.test.test_ventana_principal import Ventana
 
 def main():
