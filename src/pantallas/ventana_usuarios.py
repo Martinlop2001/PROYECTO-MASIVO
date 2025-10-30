@@ -2,12 +2,12 @@ import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMenu
-from src.service.usuarioservicio import UsuarioServicio
+from src.servicios.usuarioservicio import UsuarioServicio
 
-class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
+class VentanaUsuarios(QtWidgets.QMainWindow, QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("src/pantallas/ventana_principal.ui", self)
+        uic.loadUi("src/pantallas/ventana_usuarios.ui", self)
         self.actionSalir.triggered.connect(QtWidgets.qApp.quit)
         self.actionUsuarios.triggered.connect(self.abrir_usuarios)
         self.actionAcercade.triggered.connect(self.mostrar_acercade)
@@ -19,8 +19,9 @@ class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
         
         self.btnIngresar.clicked.connect(self.ingresar_usuario)
         self.btnModificar.clicked.connect(self.modificar_usuario)
-        self.btnMas.clicked.connect(self.limpiar_campos)
+        self.btnMas.clicked.connect(lambda: (self.limpiar_campos(), self.LineNombre.setFocus()))
         self.btnCancelar.clicked.connect(self.limpiar_campos)
+        self.LineNombre.returnPressed.connect(self.LineContrasena.setFocus)
 
         self.tlbUsuarios.cellClicked.connect(self.seleccion)
         self.tlbUsuarios.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -30,8 +31,8 @@ class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
         self.tlbUsuarios.show()
         self.btnIngresar.show()
         self.btnModificar.show()
-        self.nombre.show()
-        self.contrasena.show()
+        self.LineNombre.show()
+        self.LineContrasena.show()
         self.btnMas.show()
         self.btnCancelar.show()
 
@@ -41,8 +42,8 @@ class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
         self.tlbUsuarios.hide()
         self.btnIngresar.hide()
         self.btnModificar.hide()
-        self.nombre.hide()
-        self.contrasena.hide()
+        self.LineNombre.hide()
+        self.LineContrasena.hide()
         self.btnMas.hide()
         self.btnCancelar.hide()
 
@@ -91,8 +92,8 @@ class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
                 self.tlbUsuarios.setItem(row, 1, QtWidgets.QTableWidgetItem(str(usuario[2])))
 
     def ingresar_usuario(self):
-        nombre = self.nombre.text()
-        contraseña = self.contrasena.text()
+        nombre = self.LineNombre.text()
+        contraseña = self.LineContrasena.text()
 
         if not nombre or not contraseña:
             self.mensaje_aviso_error("Por favor, complete todos los campos.")
@@ -108,15 +109,15 @@ class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
             self.nombre_actual = self.tlbUsuarios.item(row, 0).text()
             self.contraseña_actual = self.tlbUsuarios.item(row, 1).text()
 
-            self.nombre.setText(self.nombre_actual)
-            self.contrasena.setText(self.contraseña_actual)
+            self.LineNombre.setText(self.nombre_actual)
+            self.LineContrasena.setText(self.contraseña_actual)
         except Exception as ex:
             self.mensaje_aviso_error(f"Error al seleccionar el usuario: {ex}")
     
     def modificar_usuario(self):
         try:
-            nuevo_nombre = self.nombre.text()
-            nuevo_contraseña = self.contrasena.text()
+            nuevo_nombre = self.LineNombre.text()
+            nuevo_contraseña = self.LineContrasena.text()
 
             respuesta = self.mensaje_confirmacion("¿Está seguro que desea modificar este elemento?")
 
@@ -130,8 +131,8 @@ class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
             self.mensaje_aviso_error(f"Error al modificar el usuario: {e}")
 
     def limpiar_campos(self):
-        self.nombre.clear()
-        self.contrasena.clear()
+        self.LineNombre.clear()
+        self.LineContrasena.clear()
 
     # Ventana de aviso con mensajes de error
     def mensaje_aviso_error(self, mensaje):
@@ -161,6 +162,6 @@ class VentanaPrincipal(QtWidgets.QMainWindow, QtWidgets.QDialog):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    ventana = VentanaPrincipal()
+    ventana = VentanaUsuarios()
     ventana.show()
     sys.exit(app.exec_())

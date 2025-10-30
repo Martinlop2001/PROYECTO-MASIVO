@@ -1,45 +1,30 @@
-import sqlite3
-
+from src.db.connexion_posgreSQL import ConexionDB
 class UsuarioRepositorio:
     def __init__(self):
-        self.db_path = "src/db/db.db"
-
-    def conectar(self):
-        return sqlite3.connect(self.db_path)
+        self.db = ConexionDB()
 
     def agregar_usuario(self, usuario):
-        conn = self.conectar()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO usuarios (nombreusuario, contraseña) VALUES (?, ?)", (usuario.nombre, usuario.contraseña))
-        conn.commit()
-        conn.close()
+        consulta = "INSERT INTO usuarios (nombre_usuario, contrasena) VALUES (%s, %s);"
+        datos = (usuario.nombre, usuario.contraseña)
+        self.db.ejecutar_consulta(consulta, datos)
 
     def obtener_usuario(self):
-        conn = self.conectar()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM usuarios")
-        usuarios = cursor.fetchall()
-        conn.close()
+        consulta = "SELECT * FROM usuarios;"
+        usuarios = self.db.obtencion(consulta, ())
         return usuarios
 
     def eliminar_usuario(self, id):
-        conn = self.conectar()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM usuarios WHERE id_usuario = ?", (id,))
-        conn.commit()
-        conn.close()
+        consulta = "DELETE FROM usuarios WHERE id_usuario = %s;"
+        dato = (id,)
+        self.db.ejecutar_consulta(consulta, dato)
     
     def buscar_id(self, nombre, contraseña):
-        conn = self.conectar()
-        cursor = conn.cursor()
-        cursor.execute("SELECT id_usuario FROM usuarios WHERE nombreusuario = ? AND contraseña = ?", (nombre, contraseña))
-        result = cursor.fetchone()
-        conn.close()
+        consulta = "SELECT id_usuario FROM usuarios WHERE nombre_usuario = %s AND contrasena = %s;"
+        datos = (nombre, contraseña)
+        result = self.db.obtencion(consulta, datos)
         return result[0] if result else None
     
     def modificar_usuario(self, id, nuevo_nombre, nueva_contraseña):
-        conn = self.conectar()
-        cursor = conn.cursor()
-        cursor.execute("UPDATE usuarios SET nombreusuario = ?, contraseña = ? WHERE id_usuario = ?", (nuevo_nombre, nueva_contraseña, id))
-        conn.commit()
-        conn.close()
+        consulta = "UPDATE usuarios SET nombre_usuario = %s, contrasena = %s WHERE id_usuario = %s;"
+        datos = (nuevo_nombre, nueva_contraseña, id)
+        self.db.ejecutar_consulta(consulta, datos)

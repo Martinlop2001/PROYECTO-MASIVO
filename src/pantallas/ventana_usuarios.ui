@@ -37,7 +37,7 @@
      </property>
     </column>
    </widget>
-   <widget class="QLineEdit" name="nombre">
+   <widget class="QLineEdit" name="LineNombre">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -50,7 +50,7 @@
      <string>Nombre de Usuario</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="contrasena">
+   <widget class="QLineEdit" name="LineContrasena">
     <property name="geometry">
      <rect>
       <x>40</x>
