@@ -1,0 +1,70 @@
+# -*- coding: utf-8 -*-
+
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(551, 359)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(0, 0, 551, 311))
+        self.label.setText("")
+        self.label.setPixmap(QtGui.QPixmap("c:\\Users\\ivard\\OneDrive\\Documentos\\GitHub\\PROYECTO-MASIVO\\recursos/Logo Ites.jpg"))
+        self.label.setScaledContents(True)
+        self.label.setObjectName("label")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 551, 33))
+        self.menubar.setObjectName("menubar")
+        self.menu = QtWidgets.QMenu(self.menubar)
+        self.menu.setObjectName("menu")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actionmodificar_Alumnos = QtWidgets.QAction(MainWindow)
+        self.actionmodificar_Alumnos.setObjectName("actionmodificar_Alumnos")
+        self.actionagregar_Alumno = QtWidgets.QAction(MainWindow)
+        self.actionagregar_Alumno.setObjectName("actionagregar_Alumno")
+        self.actionmodificar_alumno = QtWidgets.QAction(MainWindow)
+        self.actionmodificar_alumno.setObjectName("actionmodificar_alumno")
+        self.actionelimin_Alumnos = QtWidgets.QAction(MainWindow)
+        self.actionelimin_Alumnos.setObjectName("actionelimin_Alumnos")
+        self.actionlista_de_alumnos = QtWidgets.QAction(MainWindow)
+        self.actionlista_de_alumnos.setEnabled(True)
+        self.actionlista_de_alumnos.setObjectName("actionlista_de_alumnos")
+        self.actionagregar_alumno = QtWidgets.QAction(MainWindow)
+        self.actionagregar_alumno.setObjectName("actionagregar_alumno")
+        self.actionmodificar_alumno_2 = QtWidgets.QAction(MainWindow)
+        self.actionmodificar_alumno_2.setObjectName("actionmodificar_alumno_2")
+        self.actioneliminar_alumno = QtWidgets.QAction(MainWindow)
+        self.actioneliminar_alumno.setObjectName("actioneliminar_alumno")
+        self.actionMenu_alumnos = QtWidgets.QAction(MainWindow)
+        self.actionMenu_alumnos.setObjectName("actionMenu_alumnos")
+        self.actionAlumnos = QtWidgets.QAction(MainWindow)
+        self.actionAlumnos.setObjectName("actionAlumnos")
+        self.menu.addAction(self.actionAlumnos)
+        self.menubar.addAction(self.menu.menuAction())
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.menu.setTitle(_translate("MainWindow", "Opciones"))
+        self.actionmodificar_Alumnos.setText(_translate("MainWindow", "Lista de  Alumnos"))
+        self.actionagregar_Alumno.setText(_translate("MainWindow", "Agregar  Alumno"))
+        self.actionmodificar_alumno.setText(_translate("MainWindow", "Modificar Alumno"))
+        self.actionelimin_Alumnos.setText(_translate("MainWindow", "Eliminar Alumno"))
+        self.actionlista_de_alumnos.setText(_translate("MainWindow", "lista de alumnos"))
+        self.actionagregar_alumno.setText(_translate("MainWindow", "agregar alumno"))
+        self.actionmodificar_alumno_2.setText(_translate("MainWindow", "modificar alumno"))
+        self.actioneliminar_alumno.setText(_translate("MainWindow", "eliminar alumno"))
+        self.actionMenu_alumnos.setText(_translate("MainWindow", "Menu alumnos"))
+        self.actionAlumnos.setText(_translate("MainWindow", "Alumnos"))
