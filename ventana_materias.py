@@ -1,9 +1,9 @@
 import sys
 from PyQt5 import QtWidgets, uic
-from entidades.materias import Materia
+from entidades_materias.materias import Materia
 import sqlite3
-from db.conexion import conexion, cursor
-from servicios.servicio_materia import ServicioMateria
+from db_materias.conexion import conexion, cursor
+from servicios_materias.servicio_materia import ServicioMateria
 
 
 class Ventana(QtWidgets.QMainWindow):
@@ -42,7 +42,6 @@ class VentanaMaterias(QtWidgets.QDialog):
         if not materias:
             print("No hay materias registradas.")
         else:
-            print("\nLista de materias:")
             self.tlbMaterias.setRowCount(len(materias))
             
             row = 0
@@ -130,9 +129,6 @@ class VentanaMaterias(QtWidgets.QDialog):
             self.txtNombre.setText(self.tlbMaterias.item(fila, 0).text())
             self.txtCarrera.setText(self.tlbMaterias.item(fila, 1).text())
             self.txtAnio.setText(self.tlbMaterias.item(fila, 2).text())
-
-
-
 
 
 
