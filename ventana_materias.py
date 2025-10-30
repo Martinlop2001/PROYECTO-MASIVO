@@ -18,6 +18,8 @@ class Ventana(QtWidgets.QMainWindow):
         self.ventana_materias = VentanaMaterias()
         self.ventana_materias.show()
 
+        #sexo
+
 
 class VentanaMaterias(QtWidgets.QDialog):
     def __init__(self):
