@@ -6,7 +6,7 @@ from src.servicios.usuarioservicio import UsuarioServicio
 class Ventana(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("src/test/test_ventana_principal.ui", self)
+        uic.loadUi("src/xml/test_ventana_principal.ui", self)
         self.actionSalir.triggered.connect(QtWidgets.qApp.quit)
         self.actionUsuarios.triggered.connect(self.abrir_usuarios)
         self.actionAcercade.triggered.connect(self.mostrar_acercade)
