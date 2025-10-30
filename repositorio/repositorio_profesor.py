@@ -1,7 +1,7 @@
 
-
-import sqlite3
 from db.conexion import obtener_conexion
+import psycopg2
+from psycopg2 import errors
 
 class RepositorioProfesor:
     def listar_profesores(self):
@@ -10,6 +10,7 @@ class RepositorioProfesor:
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM profesores ORDER BY apellido, nombre")
         profesores = cursor.fetchall()
+        cursor.close()
         conexion.close()
         return profesores
     
@@ -18,8 +19,9 @@ class RepositorioProfesor:
 
         conexion = obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("SELECT * FROM profesores WHERE dni = ?", (dni,))
+        cursor.execute("SELECT * FROM profesores WHERE dni = %s", (dni,))
         profesor = cursor.fetchone()
+        cursor.close()
         conexion.close()
         return profesor
     
@@ -31,17 +33,26 @@ class RepositorioProfesor:
             cursor = conexion.cursor()
             cursor.execute("""
                 INSERT INTO profesores (dni, nombre, apellido, correo, telefono)
-                VALUES (?, ?, ?, ?, ?)
+                VALUES (%s, %s, %s, %s, %s)
             """, (profesor.dni, profesor.nombre, profesor.apellido, profesor.correo, profesor.telefono))
             conexion.commit()
+            cursor.close()
             conexion.close()
             return True, "Profesor agregado exitosamente"
 
-        except sqlite3.IntegrityError as e:
+        except psycopg2.IntegrityError as e:
+            conexion.rollback()
+            cursor.close()
             conexion.close()
             return False, "Ya existe un profesor con este DNI"
         except Exception as e:
-            conexion.close()
+            if 'conexion' in locals():
+                conexion.rollback()
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
+                conexion.close()
             return False, f"Error de base de datos: {str(e)}"
     
 
@@ -52,17 +63,25 @@ class RepositorioProfesor:
             cursor = conexion.cursor()
             cursor.execute("""
                 UPDATE profesores 
-                SET nombre = ?, apellido = ?, correo = ?, telefono = ?
-                WHERE dni = ?
+                SET nombre = %s, apellido = %s, correo = %s, telefono = %s
+                WHERE dni = %s
             """, (profesor.nombre, profesor.apellido, profesor.correo, profesor.telefono, profesor.dni))
             conexion.commit()
+            actualizadas = cursor.rowcount
+            cursor.close()
             conexion.close()
-            if cursor.rowcount > 0:
+            if actualizadas > 0:
                 return True, "Profesor actualizado exitosamente"
             else:
                 return False, "No se encontró el profesor con ese DNI"
         except Exception as e:
-            conexion.close()
+            if 'conexion' in locals():
+                conexion.rollback()
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
+                conexion.close()
             return False, f"Error al actualizar profesor: {str(e)}"
     
     def eliminar_profesor(self, dni):
@@ -70,13 +89,21 @@ class RepositorioProfesor:
         try:
             conexion = obtener_conexion()
             cursor = conexion.cursor()
-            cursor.execute("DELETE FROM profesores WHERE dni = ?", (dni,))
+            cursor.execute("DELETE FROM profesores WHERE dni = %s", (dni,))
             conexion.commit()
+            eliminadas = cursor.rowcount
+            cursor.close()
             conexion.close()
-            if cursor.rowcount > 0:
+            if eliminadas > 0:
                 return True, "Profesor eliminado exitosamente"
             else:
                 return False, "No se encontró el profesor con ese DNI"
         except Exception as e:
-            conexion.close()
+            if 'conexion' in locals():
+                conexion.rollback()
+                try:
+                    cursor.close()
+                except Exception:
+                    pass
+                conexion.close()
             return False, f"Error al eliminar profesor: {str(e)}"
