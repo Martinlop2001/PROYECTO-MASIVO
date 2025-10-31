@@ -19,26 +19,13 @@
   <property name="windowTitle">
    <string>Usuarios</string>
   </property>
-  <widget class="QPushButton" name="btnCerrar">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>351</y>
-     <width>131</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Cerrar</string>
-   </property>
-  </widget>
   <widget class="QTableWidget" name="tlbUsuarios">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>50</y>
      <width>601</width>
-     <height>321</height>
+     <height>341</height>
     </rect>
    </property>
    <property name="contextMenuPolicy">
@@ -49,20 +36,20 @@
    </property>
    <column>
     <property name="text">
-     <string>NombreUsuario</string>
+     <string>NombreUsuarios</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>Contraseña</string>
+     <string>Contraseñas</string>
     </property>
    </column>
   </widget>
   <widget class="QPushButton" name="btnIngresar">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>360</y>
+     <x>430</x>
+     <y>450</y>
      <width>90</width>
      <height>29</height>
     </rect>
@@ -71,11 +58,11 @@
     <string>Ingresar</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="nombre">
+  <widget class="QLineEdit" name="LineNombre">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>360</y>
+     <y>400</y>
      <width>191</width>
      <height>28</height>
     </rect>
@@ -87,11 +74,11 @@
     <string>Nombre de Usuario</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="contraseña">
+  <widget class="QLineEdit" name="LineContrasena">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>400</y>
+     <y>440</y>
      <width>191</width>
      <height>28</height>
     </rect>
@@ -103,17 +90,43 @@
     <string>Contraseña</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnEliminar">
+  <widget class="QPushButton" name="btnMas">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>400</y>
+     <x>590</x>
+     <y>10</y>
+     <width>31</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnCancelar">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>450</y>
      <width>90</width>
      <height>29</height>
     </rect>
    </property>
    <property name="text">
-    <string>Eliminar</string>
+    <string>Cancelar</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnModificar">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>450</y>
+     <width>90</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Modificar</string>
    </property>
   </widget>
  </widget>

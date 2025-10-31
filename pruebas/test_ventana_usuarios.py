@@ -1,12 +1,20 @@
+import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMenu
 from servicios.usuarioservicio import UsuarioServicio
 
-class VentanaUsuarios(QtWidgets.QDialog):
+class VentanaUsuarios(QtWidgets.QMainWindow, QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
-        uic.loadUi("xml/usuarios.ui", self)
+        uic.loadUi("xml/test_ventana_usuarios.ui", self)
+        self.actionSalir.triggered.connect(QtWidgets.qApp.quit)
+        self.actionUsuarios.triggered.connect(self.abrir_usuarios)
+        self.actionAcercade.triggered.connect(self.mostrar_acercade)
+        self.actionUsuarios_2.triggered.connect(self.sobre_usuarios)
+
+        self.ocultar_usuarios()
+
         self.servicio_usuario = UsuarioServicio()
         
         self.btnIngresar.clicked.connect(self.ingresar_usuario)
@@ -17,9 +25,15 @@ class VentanaUsuarios(QtWidgets.QDialog):
 
         self.tlbUsuarios.cellClicked.connect(self.seleccion)
         self.tlbUsuarios.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.tlbUsuarios.customContextMenuRequested.connect(self.menu_contextual)
+        self.tlbUsuarios.customContextMenuRequested.connect(self.menu_contextual)        
+
+    def abrir_usuarios(self):
+        self.centralwidget.show()
 
         self.listar_usuarios()
+
+    def ocultar_usuarios(self):
+        self.centralwidget.hide()
 
     def mostrar_acercade(self):
         QtWidgets.QMessageBox.information(self, "Acerca de", "Aplicación de Gestión de Usuarios\nDesarrollada por Luis")
@@ -144,3 +158,9 @@ class VentanaUsuarios(QtWidgets.QDialog):
         msg_box.setWindowTitle("Confirmación")
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         return msg_box.exec() == QtWidgets.QMessageBox.Yes
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    ventana = VentanaUsuarios()
+    ventana.show()
+    sys.exit(app.exec_())
