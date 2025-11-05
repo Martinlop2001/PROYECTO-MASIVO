@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Gestión de Profesores</string>
+   <string>Gestión de Alumnos</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -27,11 +27,11 @@
      </property>
      <widget class="QWidget" name="tabLista">
       <attribute name="title">
-       <string>Lista de Profesores</string>
+       <string>Lista de Alumnos</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QTableWidget" name="tlbProfesores">
+        <widget class="QTableWidget" name="tlbAlumnos">
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
@@ -43,27 +43,17 @@
          </property>
          <column>
           <property name="text">
-           <string>DNI</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
            <string>Nombre</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>Apellido</string>
+           <string>Carrera</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>Correo</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Teléfono</string>
+           <string>Año</string>
           </property>
          </column>
         </widget>
@@ -73,21 +63,21 @@
          <item>
           <widget class="QPushButton" name="btnAgregar">
            <property name="text">
-            <string>Agregar Profesor</string>
+            <string>Agregar Alumno</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnEditar">
            <property name="text">
-            <string>Editar Profesor</string>
+            <string>Editar Alumno</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnEliminar">
            <property name="text">
-            <string>Eliminar Profesor</string>
+            <string>Eliminar Alumno</string>
            </property>
           </widget>
          </item>
@@ -128,34 +118,10 @@
           </font>
          </property>
          <property name="title">
-          <string>Datos del Profesor</string>
+          <string>Datos del Alumno</string>
          </property>
          <layout class="QFormLayout" name="formLayout">
           <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>DNI:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="txtDNI">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el DNI</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
            <widget class="QLabel" name="label_2">
             <property name="font">
              <font>
@@ -167,7 +133,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
+          <item row="0" column="1">
            <widget class="QLineEdit" name="txtNombre">
             <property name="font">
              <font>
@@ -175,11 +141,11 @@
              </font>
             </property>
             <property name="placeholderText">
-             <string>Ingrese el nombre</string>
+             <string>Ingrese el nombre completo</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="1" column="0">
            <widget class="QLabel" name="label_3">
             <property name="font">
              <font>
@@ -187,23 +153,23 @@
              </font>
             </property>
             <property name="text">
-             <string>Apellido:</string>
+             <string>Carrera:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="txtApellido">
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="txtCarrera">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
              </font>
             </property>
             <property name="placeholderText">
-             <string>Ingrese el apellido</string>
+             <string>Ingrese la carrera</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="label_4">
             <property name="font">
              <font>
@@ -211,43 +177,19 @@
              </font>
             </property>
             <property name="text">
-             <string>Correo:</string>
+             <string>Año:</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="txtCorreo">
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="txtAnio">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
              </font>
             </property>
             <property name="placeholderText">
-             <string>ejemplo@correo.com</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Teléfono:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="txtTelefono">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="placeholderText">
-             <string>Ingrese el teléfono</string>
+             <string>Ingrese el año (1-10)</string>
             </property>
            </widget>
           </item>
@@ -317,3 +259,4 @@
  <resources/>
  <connections/>
 </ui>
+
