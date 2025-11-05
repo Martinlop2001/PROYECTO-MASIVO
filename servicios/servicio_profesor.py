@@ -1,7 +1,10 @@
 
 
+
 from repositorio.repositorio_profesor import RepositorioProfesor
-from profesores import Profesor
+from entidades.profesores import Profesor
+
+
 
 class ServicioProfesor:
     def __init__(self):

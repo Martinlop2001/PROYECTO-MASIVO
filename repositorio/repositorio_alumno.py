@@ -6,48 +6,42 @@ import psycopg2
 
 
 
-class RepositorioProfesor:
-    def listar_profesores(self):
-
+class RepositorioAlumno:
+    def listar_alumnos(self):
         conexion = obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("SELECT * FROM profesores ORDER BY apellido, nombre")
-        profesores = cursor.fetchall()
+        cursor.execute("SELECT * FROM alumnos ORDER BY nombre")
+        alumnos = cursor.fetchall()
         cursor.close()
         conexion.close()
-        return profesores
+        return alumnos
     
-
-    def buscar_profesor(self, dni):
-
+    def buscar_alumno(self, nombre):
         conexion = obtener_conexion()
         cursor = conexion.cursor()
-        cursor.execute("SELECT * FROM profesores WHERE dni = %s", (dni,))
-        profesor = cursor.fetchone()
+        cursor.execute("SELECT * FROM alumnos WHERE nombre = %s", (nombre,))
+        alumno = cursor.fetchone()
         cursor.close()
         conexion.close()
-        return profesor
+        return alumno
     
-
-    def agregar_profesor(self, profesor):
-
+    def agregar_alumno(self, alumno):
         try:
             conexion = obtener_conexion()
             cursor = conexion.cursor()
             cursor.execute("""
-                INSERT INTO profesores (dni, nombre, apellido, correo, telefono)
-                VALUES (%s, %s, %s, %s, %s)
-            """, (profesor.dni, profesor.nombre, profesor.apellido, profesor.correo, profesor.telefono))
+                INSERT INTO alumnos (nombre, carrera, anio)
+                VALUES (%s, %s, %s)
+            """, (alumno.nombre, alumno.carrera, alumno.anio))
             conexion.commit()
             cursor.close()
             conexion.close()
-            return True, "Profesor agregado exitosamente"
-
+            return True, "Alumno agregado exitosamente"
         except psycopg2.IntegrityError as e:
             conexion.rollback()
             cursor.close()
             conexion.close()
-            return False, "Ya existe un profesor con este DNI"
+            return False, "Ya existe un alumno con este nombre"
         except Exception as e:
             if 'conexion' in locals():
                 conexion.rollback()
@@ -58,25 +52,23 @@ class RepositorioProfesor:
                 conexion.close()
             return False, f"Error de base de datos: {str(e)}"
     
-
-    def actualizar_profesor(self, profesor):
-
+    def actualizar_alumno(self, nombre_original, alumno):
         try:
             conexion = obtener_conexion()
             cursor = conexion.cursor()
             cursor.execute("""
-                UPDATE profesores 
-                SET nombre = %s, apellido = %s, correo = %s, telefono = %s
-                WHERE dni = %s
-            """, (profesor.nombre, profesor.apellido, profesor.correo, profesor.telefono, profesor.dni))
+                UPDATE alumnos 
+                SET nombre = %s, carrera = %s, anio = %s
+                WHERE nombre = %s
+            """, (alumno.nombre, alumno.carrera, alumno.anio, nombre_original))
             conexion.commit()
             actualizadas = cursor.rowcount
             cursor.close()
             conexion.close()
             if actualizadas > 0:
-                return True, "Profesor actualizado exitosamente"
+                return True, "Alumno actualizado exitosamente"
             else:
-                return False, "No se encontró el profesor con ese DNI"
+                return False, "No se encontró el alumno con ese nombre"
         except Exception as e:
             if 'conexion' in locals():
                 conexion.rollback()
@@ -85,22 +77,21 @@ class RepositorioProfesor:
                 except Exception:
                     pass
                 conexion.close()
-            return False, f"Error al actualizar profesor: {str(e)}"
+            return False, f"Error al actualizar alumno: {str(e)}"
     
-    def eliminar_profesor(self, dni):
-
+    def eliminar_alumno(self, nombre):
         try:
             conexion = obtener_conexion()
             cursor = conexion.cursor()
-            cursor.execute("DELETE FROM profesores WHERE dni = %s", (dni,))
+            cursor.execute("DELETE FROM alumnos WHERE nombre = %s", (nombre,))
             conexion.commit()
             eliminadas = cursor.rowcount
             cursor.close()
             conexion.close()
             if eliminadas > 0:
-                return True, "Profesor eliminado exitosamente"
+                return True, "Alumno eliminado exitosamente"
             else:
-                return False, "No se encontró el profesor con ese DNI"
+                return False, "No se encontró el alumno con ese nombre"
         except Exception as e:
             if 'conexion' in locals():
                 conexion.rollback()
@@ -109,4 +100,5 @@ class RepositorioProfesor:
                 except Exception:
                     pass
                 conexion.close()
-            return False, f"Error al eliminar profesor: {str(e)}"
+            return False, f"Error al eliminar alumno: {str(e)}"
+
