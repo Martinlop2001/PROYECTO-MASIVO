@@ -15,6 +15,8 @@ class VentanaPrincipal(QtWidgets.QMainWindow):
         self.actionAlumnos.triggered.connect(self.abrir_alumnos)
         self.actionMaterias.triggered.connect(self.abrir_materias)
         self.actionUsuarios.triggered.connect(self.abrir_usuarios)
+        self.actionAcercade.triggered.connect(self.mostrar_acercade)
+        self.actionUsuarios_2.triggered.connect(self.sobre_usuarios)
     
     def abrir_profesores(self):
         self.ventana_profesores = VentanaProfesores(self)
@@ -32,6 +34,11 @@ class VentanaPrincipal(QtWidgets.QMainWindow):
         self.ventana_usuarios = VentanaUsuarios()
         self.ventana_usuarios.show()
 
+    def mostrar_acercade(self):
+        QtWidgets.QMessageBox.information(self, "Acerca de", "Aplicación de Gestión de Usuarios.\nDesarrollada por los alumnos de 2do año del ITES.")
+    
+    def sobre_usuarios(self):
+        QtWidgets.QMessageBox.information(self, "Sobre Usuarios", "En este sistema puedes gestionar los usuarios.\nPuedes agregar, eliminar o modificar usuarios existentes.")
 
 
 
