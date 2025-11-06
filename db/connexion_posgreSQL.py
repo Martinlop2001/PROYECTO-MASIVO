@@ -33,7 +33,7 @@ class ConexionDB:
             self.connection.commit()
             return muestra
         except Exception as ex:
-            print(ex)
+            print("Obtecion: ", ex)
             return None
         
     def inicializar_base_datos(self):
@@ -87,8 +87,6 @@ class ConexionDB:
         )
 
         self.connection.commit()
-        cursor.close()
-        self.connection.close()
 
     def close_connection(self):
         if self.connection:

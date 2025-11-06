@@ -29,7 +29,7 @@ class VentanaPrincipal(QtWidgets.QMainWindow):
         self.ventana_materias.show()
     
     def abrir_usuarios(self):
-        self.ventana_usuarios = VentanaUsuarios(self)
+        self.ventana_usuarios = VentanaUsuarios()
         self.ventana_usuarios.show()
 
 
