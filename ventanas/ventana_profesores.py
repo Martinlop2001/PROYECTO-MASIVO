@@ -1,10 +1,6 @@
-
-
-
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 from servicios.servicio_profesor import ServicioProfesor
-
 
 
 class VentanaProfesores(QtWidgets.QDialog):

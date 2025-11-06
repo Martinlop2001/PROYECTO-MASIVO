@@ -3,6 +3,7 @@ import psycopg2
 class ConexionDB:
     def __init__(self):
         self.connection = self.connect_to_db()
+        self.inicializar_base_datos()
 
     def connect_to_db(self):
         connection = psycopg2.connect(
@@ -73,7 +74,18 @@ class ConexionDB:
             )
             """
         )
-        
+
+        # Crear tabla de usuarios
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS usuarios (
+                id_usuario uuid PRIMARY KEY,
+                nombre_usuario VARCHAR(100) NOT NULL,
+                contrasena VARCHAR(100) NOT NULL
+            )
+            """
+        )
+
         self.connection.commit()
         cursor.close()
         self.connection.close()

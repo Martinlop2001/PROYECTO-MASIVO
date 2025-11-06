@@ -1,5 +1,3 @@
-
-
 class Materia:
     def __init__(self, nombre, carrera, anio):
         self.nombre = nombre

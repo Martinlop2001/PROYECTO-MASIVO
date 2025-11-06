@@ -1,14 +1,12 @@
-
-
-
-from db.conexion import obtener_conexion
+from db.connexion_posgreSQL import ConexionDB
 import psycopg2
 
-
-
 class RepositorioMateria:
+    def __init__(self):
+        self.db = ConexionDB()
+
     def listar_materias(self):
-        conexion = obtener_conexion()
+        conexion = self.db.connect_to_db()
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM materias ORDER BY nombre")
         materias = cursor.fetchall()
@@ -17,7 +15,7 @@ class RepositorioMateria:
         return materias
     
     def buscar_materia(self, nombre):
-        conexion = obtener_conexion()
+        conexion = self.db.connect_to_db()
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM materias WHERE nombre = %s", (nombre,))
         materia = cursor.fetchone()
@@ -27,7 +25,7 @@ class RepositorioMateria:
     
     def agregar_materia(self, materia):
         try:
-            conexion = obtener_conexion()
+            conexion = self.db.connect_to_db()
             cursor = conexion.cursor()
             cursor.execute("""
                 INSERT INTO materias (nombre, carrera, anio)
@@ -54,7 +52,7 @@ class RepositorioMateria:
     
     def actualizar_materia(self, nombre_original, materia):
         try:
-            conexion = obtener_conexion()
+            conexion = self.db.connect_to_db()
             cursor = conexion.cursor()
             cursor.execute("""
                 UPDATE materias 
@@ -81,7 +79,7 @@ class RepositorioMateria:
     
     def eliminar_materia(self, nombre):
         try:
-            conexion = obtener_conexion()
+            conexion = self.db.connect_to_db()
             cursor = conexion.cursor()
             cursor.execute("DELETE FROM materias WHERE nombre = %s", (nombre,))
             conexion.commit()

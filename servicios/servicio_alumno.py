@@ -1,10 +1,5 @@
-
-
-
 from repositorio.repositorio_alumno import RepositorioAlumno
 from entidades.alumnos import Alumno
-
-
 
 class ServicioAlumno:
     def __init__(self):

@@ -1,11 +1,7 @@
-
-
-
 import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 from servicios.servicio_materia import ServicioMateria
-
 
 
 class VentanaMaterias(QtWidgets.QDialog):

@@ -1,9 +1,5 @@
-
-
-
 from repositorio.repositorio_materia import RepositorioMateria
 from entidades.materias import Materia
-
 
 
 class ServicioMateria:

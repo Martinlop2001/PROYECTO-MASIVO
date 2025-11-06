@@ -1,14 +1,12 @@
-
-
-
-from db.conexion import obtener_conexion
+from db.connexion_posgreSQL import ConexionDB 
 import psycopg2
 
-
-
 class RepositorioAlumno:
+    def __init__(self):
+        self.db = ConexionDB()
+
     def listar_alumnos(self):
-        conexion = obtener_conexion()
+        conexion = self.db.connect_to_db()
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM alumnos ORDER BY nombre")
         alumnos = cursor.fetchall()
@@ -17,7 +15,7 @@ class RepositorioAlumno:
         return alumnos
     
     def buscar_alumno(self, nombre):
-        conexion = obtener_conexion()
+        conexion = self.db.connect_to_db()
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM alumnos WHERE nombre = %s", (nombre,))
         alumno = cursor.fetchone()
@@ -27,7 +25,7 @@ class RepositorioAlumno:
     
     def agregar_alumno(self, alumno):
         try:
-            conexion = obtener_conexion()
+            conexion = self.db.connect_to_db()
             cursor = conexion.cursor()
             cursor.execute("""
                 INSERT INTO alumnos (nombre, carrera, anio)
@@ -54,7 +52,7 @@ class RepositorioAlumno:
     
     def actualizar_alumno(self, nombre_original, alumno):
         try:
-            conexion = obtener_conexion()
+            conexion = self.db.connect_to_db()
             cursor = conexion.cursor()
             cursor.execute("""
                 UPDATE alumnos 
@@ -81,7 +79,7 @@ class RepositorioAlumno:
     
     def eliminar_alumno(self, nombre):
         try:
-            conexion = obtener_conexion()
+            conexion = self.db.connect_to_db()
             cursor = conexion.cursor()
             cursor.execute("DELETE FROM alumnos WHERE nombre = %s", (nombre,))
             conexion.commit()

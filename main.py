@@ -4,16 +4,17 @@ from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 from servicios.servicio_materia import ServicioMateria
 from ventanas.ventana_alumnos import VentanaAlumnos
 from ventanas.ventana_profesores import VentanaProfesores
-
+from ventanas.ventana_usuarios import VentanaUsuarios
 
 class VentanaPrincipal(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("ventana_principal.ui", self)
+        uic.loadUi("xml/ventana_principal.ui", self)
         self.actionSalir.triggered.connect(QtWidgets.qApp.quit)
         self.actionProfesores.triggered.connect(self.abrir_profesores)
         self.actionAlumnos.triggered.connect(self.abrir_alumnos)
         self.actionMaterias.triggered.connect(self.abrir_materias)
+        self.actionUsuarios.triggered.connect(self.abrir_usuarios)
     
     def abrir_profesores(self):
         self.ventana_profesores = VentanaProfesores(self)
@@ -26,6 +27,11 @@ class VentanaPrincipal(QtWidgets.QMainWindow):
     def abrir_materias(self):
         self.ventana_materias = VentanaMaterias(self)
         self.ventana_materias.show()
+    
+    def abrir_usuarios(self):
+        self.ventana_usuarios = VentanaUsuarios(self)
+        self.ventana_usuarios.show()
+
 
 
 

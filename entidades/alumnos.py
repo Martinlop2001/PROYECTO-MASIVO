@@ -1,5 +1,3 @@
-
-
 class Alumno:
     def __init__(self, nombre, carrera, anio):
         self.nombre = nombre
