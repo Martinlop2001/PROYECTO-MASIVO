@@ -1,37 +1,16 @@
+
+
+
 import sys
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 from servicios.servicio_materia import ServicioMateria
-from ventanas.ventana_alumnos import VentanaAlumnos
-from ventanas.ventana_profesores import VentanaProfesores
-
-
-class VentanaPrincipal(QtWidgets.QMainWindow):
-    def __init__(self):
-        super().__init__()
-        uic.loadUi("ventana_principal.ui", self)
-        self.actionSalir.triggered.connect(QtWidgets.qApp.quit)
-        self.actionProfesores.triggered.connect(self.abrir_profesores)
-        self.actionAlumnos.triggered.connect(self.abrir_alumnos)
-        self.actionMaterias.triggered.connect(self.abrir_materias)
-    
-    def abrir_profesores(self):
-        self.ventana_profesores = VentanaProfesores(self)
-        self.ventana_profesores.show()
-    
-    def abrir_alumnos(self):
-        self.ventana_alumnos = VentanaAlumnos(self)
-        self.ventana_alumnos.show()
-    
-    def abrir_materias(self):
-        self.ventana_materias = VentanaMaterias(self)
-        self.ventana_materias.show()
 
 
 
 class VentanaMaterias(QtWidgets.QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def __init__(self):
+        super().__init__()
         uic.loadUi("ui/materias.ui", self)
         
         # Inicializar servicio
@@ -148,12 +127,8 @@ class VentanaMaterias(QtWidgets.QDialog):
         self.materia_editando = None
 
 
-def main():
+if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    ventana = VentanaPrincipal()
+    ventana = VentanaMaterias()
     ventana.show()
     sys.exit(app.exec_())
-
-
-if __name__ == "__main__":
-    main()
