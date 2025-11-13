@@ -35,7 +35,7 @@ class VentanaPrincipal(QtWidgets.QMainWindow):
         self.ventana_usuarios.show()
 
     def mostrar_acercade(self):
-        QtWidgets.QMessageBox.information(self, "Acerca de", "Aplicación de Gestión de Usuarios.\nDesarrollada por los alumnos de 2do año del ITES.")
+        QtWidgets.QMessageBox.information(self, "Acerca de", "Aplicación de Gestión de Asistencias para alumnos y profesores.\nDesarrollada por los alumnos de 2do año del ITES.")
     
     def sobre_usuarios(self):
         QtWidgets.QMessageBox.information(self, "Sobre Usuarios", "En este sistema puedes gestionar los usuarios.\nPuedes agregar, eliminar o modificar usuarios existentes.")
